@@ -1,0 +1,33 @@
+# LICENSE
+
+## Software
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+## Hardware
+
+The hardware design files included in this repository are licensed 
+under the CERN Open Hardware Licence Version 2 - Strongly Reciprocal 
+(CERN-OHL-S-2.0).
+
+You may use, study, modify, manufacture, and distribute the hardware 
+and its design files under the terms of that license. Any 
+redistribution or modification of covered source must comply with the
+ reciprocal requirements of the CERN-OHL-S-2.0.
+
+This hardware is provided without any warranty, to the extent 
+permitted by applicable law.
+
+A copy of the CERN-OHL-S-2.0 license is provided with this 
+repository.
