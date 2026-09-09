@@ -13,8 +13,9 @@
 
 ## kigeyes-power-io-board
 
-<img src="../docs/assets/kigeyes-power-io-board-v1-front.png" alt="kigeyes-power-io-board-v1-front" height="300">
-<img src="../docs/assets/kigeyes-power-io-board-v1-back.png" alt="kigeyes-power-io-board-v1-back" height="300">
+| ![kigeyes-power-io-board-v1-front](../docs/assets/kigeyes-power-io-board-v1-front.png) | ![kigeyes-power-io-board-v1-back](../docs/assets/kigeyes-power-io-board-v1-back.png) |
+| --- | --- |
+
 
 | versions | status |
 | :-- | :-- |
