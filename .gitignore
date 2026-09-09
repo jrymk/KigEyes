@@ -43,3 +43,7 @@ fp-info-cache
 *.kicad_prl
 
 fabrication-toolkit-options.json
+
+# Independent public repository and Python script caches
+/public/
+__pycache__/
