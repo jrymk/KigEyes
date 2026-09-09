@@ -13,8 +13,8 @@
 
 ## kigeyes-power-io-board
 
-<img src="../docs/assets/kigeyes-power-io-board-v1-front.png" alt="kigeyes-power-io-board-v1-front" height="300">
-<img src="../docs/assets/kigeyes-power-io-board-v1-back.png" alt="kigeyes-power-io-board-v1-back" height="300">
+| ![](../docs/assets/kigeyes-power-io-board-v1-front.png) | ![](../docs/assets/kigeyes-power-io-board-v1-back.png) |
+| --- | --- |
 
 | versions | status |
 | :-- | :-- |
