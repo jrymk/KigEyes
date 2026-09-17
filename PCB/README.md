@@ -4,7 +4,7 @@
 
 | versions | status |
 | :-- | :-- |
-| v1 | work in progress |
+| v1 | work in progress (ETA: 2026/9/20) |
 
 - Type C (custom protocol) power input (up to 15V) from `kigeyes-power-io-board`, includes single USB 2.0, dual USB 3.2 Gen 1, and I2C
 - Raspberry Pi Compute Module 5
@@ -19,7 +19,7 @@
 
 | versions | status |
 | :-- | :-- |
-| [v1](https://github.com/jrymk/KigEyes/tree/03120d87e7e96c838e76b844e53821a05b18d4d7/PCB/kigeyes-power-io-board) | design ready, untested |
+| [v1](https://github.com/jrymk/KigEyes/tree/7198f1973b7d364ebd13c92b04e8cc514ec3cece/PCB/kigeyes-power-io-board) | finalized, untested |
 
 - USB PD input (up to 15V 3A)
 - 1S LiFePO4 BQ25306 charger (up to 3A) and voltage booster
@@ -27,7 +27,8 @@
 - USB 2.0 hub
 - USB Type C DFP (5V 1.5A, USB 3.2 Gen 1, PD-compliant)
 - USB Type A DFP (5V 0.9A guaranteed, USB 3.2 Gen 1)
-- USB Port J (JST PH, USB 2.0)
+- USB Port AUX (JST PH, USB 2.0)
+- USB Port ENV (JST PH, USB 2.0)
 - 24V/12V fan output with speed control
 
 ## eye-tracker-mainboard
