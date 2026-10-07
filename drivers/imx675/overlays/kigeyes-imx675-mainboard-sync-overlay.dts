@@ -1,0 +1,158 @@
+// SPDX-License-Identifier: GPL-2.0-only
+/dts-v1/;
+/plugin/;
+
+/*
+ * KigEyes mainboard: IMX675 modules in physical ports 0 and 3.
+ *
+ * The mainboard places a TCA9548A at 0x70 on the CM5 CAM0 control bus.
+ * Because the schematic intentionally reverses the TCA channel order,
+ * physical port 0 is channel 7 and physical port 3 is channel 0.  The two
+ * TS3DV642 CSI switches route port 0 through MIPI0/A and port 3 through
+ * MIPI1/B.  Their shared enable is owned by the ESP32-C6 firmware; Linux owns
+ * only the two select inputs on GPIO6 and GPIO5 respectively.
+ *
+ * The XHS_03 and XVS_03 solder links must be closed.  Port 0 is the timing
+ * master; port 3 is made high-impedance and follows the shared timing nets.
+ */
+
+/ {
+	compatible = "brcm,bcm2835";
+
+	fragment@0 {
+		target = <&i2c0if>;
+		__overlay__ { status = "okay"; };
+	};
+
+	fragment@1 {
+		target = <&i2c0mux>;
+		__overlay__ { status = "okay"; };
+	};
+
+	fragment@2 {
+		target = <&i2c_csi_dsi0>;
+		__overlay__ {
+			#address-cells = <1>;
+			#size-cells = <0>;
+			status = "okay";
+
+			camera_i2c_mux: i2c-mux@70 {
+				/* Linux's pca954x binding uses the original NXP-compatible
+				 * identifier for pin-compatible TI TCA9548A parts. */
+				compatible = "nxp,pca9548";
+				reg = <0x70>;
+				#address-cells = <1>;
+				#size-cells = <0>;
+				i2c-mux-idle-disconnect;
+
+				/* TCA channel 7 is physical camera port 0. */
+				cam_port0_i2c: i2c@7 {
+					reg = <7>;
+					#address-cells = <1>;
+					#size-cells = <0>;
+
+					imx675_port0: camera@1a {
+						compatible = "kigeyes,imx675";
+						reg = <0x1a>;
+						kigeyes,controller-address = <0x30>;
+						kigeyes,sync-role = "master";
+						rotation = <0>;
+						orientation = <2>;
+
+						port {
+							imx675_port0_ep: endpoint {
+								clock-lanes = <0>;
+								data-lanes = <1 2 3 4>;
+								clock-noncontinuous;
+								link-frequencies = /bits/ 64 <594000000 297000000>;
+								remote-endpoint = <&csi0_imx675_mainboard_ep>;
+							};
+						};
+					};
+				};
+
+				/* TCA channel 0 is physical camera port 3. */
+				cam_port3_i2c: i2c@0 {
+					reg = <0>;
+					#address-cells = <1>;
+					#size-cells = <0>;
+
+					imx675_port3: camera@1a {
+						compatible = "kigeyes,imx675";
+						reg = <0x1a>;
+						kigeyes,controller-address = <0x30>;
+						kigeyes,sync-role = "slave";
+						rotation = <0>;
+						orientation = <2>;
+
+						port {
+							imx675_port3_ep: endpoint {
+								clock-lanes = <0>;
+								data-lanes = <1 2 3 4>;
+								clock-noncontinuous;
+								link-frequencies = /bits/ 64 <594000000 297000000>;
+								remote-endpoint = <&csi1_imx675_mainboard_ep>;
+							};
+						};
+					};
+				};
+			};
+		};
+	};
+
+	fragment@3 {
+		target = <&csi0>;
+		__overlay__ {
+			status = "okay";
+			port {
+				csi0_imx675_mainboard_ep: endpoint {
+					clock-lanes = <0>;
+					data-lanes = <1 2 3 4>;
+					clock-noncontinuous;
+					remote-endpoint = <&imx675_port0_ep>;
+				};
+			};
+		};
+	};
+
+	fragment@4 {
+		target = <&csi1>;
+		__overlay__ {
+			status = "okay";
+			port {
+				csi1_imx675_mainboard_ep: endpoint {
+					clock-lanes = <0>;
+					data-lanes = <1 2 3 4>;
+					clock-noncontinuous;
+					remote-endpoint = <&imx675_port3_ep>;
+				};
+			};
+		};
+	};
+
+	/* The modules generate their own rails and clocks. */
+	fragment@5 {
+		target = <&cam0_reg>;
+		__overlay__ { status = "disabled"; };
+	};
+
+	/* TS3DV642 SEL1 is tied high: SEL2 low selects A, high selects B. */
+	fragment@6 {
+		target = <&gpio>;
+		__overlay__ {
+			mipi0_port0_select: mipi0-port0-select {
+				gpio-hog;
+				gpios = <6 0>;
+				output-low;
+				line-name = "mipi0-port0-a-select";
+			};
+
+			mipi1_port3_select: mipi1-port3-select {
+				gpio-hog;
+				gpios = <5 0>;
+				output-high;
+				line-name = "mipi1-port3-b-select";
+			};
+		};
+	};
+};

@@ -1,0 +1,137 @@
+// SPDX-License-Identifier: GPL-2.0-only
+/dts-v1/;
+/plugin/;
+
+/*
+ * KigEyes hardware-synchronised dual IMX675 setup.
+ *
+ * CAM0 is the XVS/XHS source and CAM1 is the receiver.  Use this overlay only
+ * after both sync nets have been wired and every 3.3 V pull-up has been
+ * isolated from the sensors' 1.8 V pins.  The ordinary dual overlay keeps both
+ * modules in master/free-running mode for development hardware.
+ */
+
+/ {
+	compatible = "brcm,bcm2835";
+
+	fragment@0 {
+		target = <&i2c0if>;
+		__overlay__ { status = "okay"; };
+	};
+
+	fragment@1 {
+		target = <&i2c0mux>;
+		__overlay__ { status = "okay"; };
+	};
+
+	fragment@2 {
+		target = <&i2c_csi_dsi0>;
+		__overlay__ {
+			#address-cells = <1>;
+			#size-cells = <0>;
+			status = "okay";
+
+			imx675_0: camera@1a {
+				compatible = "kigeyes,imx675";
+				reg = <0x1a>;
+				kigeyes,controller-address = <0x30>;
+				kigeyes,sync-role = "master";
+				rotation = <0>;
+				orientation = <2>;
+
+				port {
+					imx675_0_ep: endpoint {
+						clock-lanes = <0>;
+						data-lanes = <1 2 3 4>;
+						clock-noncontinuous;
+						link-frequencies = /bits/ 64 <594000000 297000000>;
+						remote-endpoint = <&csi0_imx675_ep>;
+					};
+				};
+			};
+		};
+	};
+
+	fragment@3 {
+		target = <&csi0>;
+		__overlay__ {
+			status = "okay";
+			port {
+				csi0_imx675_ep: endpoint {
+					clock-lanes = <0>;
+					data-lanes = <1 2 3 4>;
+					clock-noncontinuous;
+					remote-endpoint = <&imx675_0_ep>;
+				};
+			};
+		};
+	};
+
+	fragment@4 {
+		target = <&i2c_csi_dsi1>;
+		__overlay__ {
+			#address-cells = <1>;
+			#size-cells = <0>;
+			status = "okay";
+
+			imx675_1: camera@1a {
+				compatible = "kigeyes,imx675";
+				reg = <0x1a>;
+				kigeyes,controller-address = <0x30>;
+				kigeyes,sync-role = "slave";
+				rotation = <0>;
+				orientation = <2>;
+
+				port {
+					imx675_1_ep: endpoint {
+						clock-lanes = <0>;
+						data-lanes = <1 2 3 4>;
+						clock-noncontinuous;
+						link-frequencies = /bits/ 64 <594000000 297000000>;
+						remote-endpoint = <&csi1_imx675_ep>;
+					};
+				};
+			};
+		};
+	};
+
+	fragment@5 {
+		target = <&csi1>;
+		__overlay__ {
+			status = "okay";
+			port {
+				csi1_imx675_ep: endpoint {
+					clock-lanes = <0>;
+					data-lanes = <1 2 3 4>;
+					clock-noncontinuous;
+					remote-endpoint = <&imx675_1_ep>;
+				};
+			};
+		};
+	};
+
+	/* Never let CM5 GPIOs drive the sensors' 1.8 V XHS/XVS nets. */
+	fragment@6 {
+		target = <&cam0_reg>;
+		__overlay__ { status = "disabled"; };
+	};
+
+	fragment@7 {
+		target = <&gpio>;
+		__overlay__ {
+			imx675_xhs_guard: imx675-xhs-guard {
+				gpio-hog;
+				gpios = <34 0>;
+				input;
+				line-name = "imx675-xhs-input";
+			};
+
+			imx675_xvs_guard: imx675-xvs-guard {
+				gpio-hog;
+				gpios = <35 0>;
+				input;
+				line-name = "imx675-xvs-input";
+			};
+		};
+	};
+};

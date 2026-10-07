@@ -1,0 +1,99 @@
+// SPDX-License-Identifier: GPL-2.0-only
+/dts-v1/;
+/plugin/;
+
+/*
+ * KigEyes IMX675 camera module on the CM5 CAM0 connector.
+ *
+ * The module supplies its own 24 MHz oscillator.  Do not enable cam0_clk:
+ * pins 17/18 on the Pi connector map to the module's XHS/XVS signals.
+ */
+
+/ {
+	compatible = "brcm,bcm2835";
+
+	fragment@0 {
+		target = <&i2c0if>;
+		__overlay__ {
+			status = "okay";
+		};
+	};
+
+	fragment@1 {
+		target = <&i2c0mux>;
+		__overlay__ {
+			status = "okay";
+		};
+	};
+
+	fragment@2 {
+		target = <&i2c_csi_dsi0>;
+		__overlay__ {
+			#address-cells = <1>;
+			#size-cells = <0>;
+			status = "okay";
+
+			imx675: camera@1a {
+				compatible = "kigeyes,imx675";
+				reg = <0x1a>;
+				kigeyes,controller-address = <0x30>;
+				kigeyes,sync-role = "master";
+				rotation = <0>;
+				orientation = <2>;
+
+				port {
+					imx675_ep: endpoint {
+						clock-lanes = <0>;
+						data-lanes = <1 2 3 4>;
+						clock-noncontinuous;
+						link-frequencies = /bits/ 64 <594000000 297000000>;
+						remote-endpoint = <&csi0_ep>;
+					};
+				};
+			};
+		};
+	};
+
+	fragment@3 {
+		target = <&csi0>;
+		__overlay__ {
+			status = "okay";
+
+			port {
+				csi0_ep: endpoint {
+					clock-lanes = <0>;
+					data-lanes = <1 2 3 4>;
+					clock-noncontinuous;
+					remote-endpoint = <&imx675_ep>;
+				};
+			};
+		};
+	};
+
+	/* XHS/XVS are 1.8 V sensor signals; the Pi pads must be inputs. */
+	fragment@4 {
+		target = <&cam0_reg>;
+		__overlay__ {
+			status = "disabled";
+		};
+	};
+
+	fragment@5 {
+		target = <&gpio>;
+		__overlay__ {
+			imx675_xhs_guard: imx675-xhs-guard {
+				gpio-hog;
+				gpios = <34 0>;
+				input;
+				line-name = "imx675-xhs-input";
+			};
+
+			imx675_xvs_guard: imx675-xvs-guard {
+				gpio-hog;
+				gpios = <35 0>;
+				input;
+				line-name = "imx675-xvs-input";
+			};
+		};
+	};
+};

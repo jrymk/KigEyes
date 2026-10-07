@@ -1,0 +1,33 @@
+KigEyes IMX675 core driver licensing
+=================================
+
+The following core-release files are distributed under the GNU General
+Public License version 2 only (GPL-2.0-only). See COPYING for the full text:
+
+  imx675_kigeyes.c
+  imx675_regs.h
+  Makefile
+  install.sh
+  overlays/kigeyes-imx675-overlay.dts
+  overlays/kigeyes-imx675-dual-overlay.dts
+  overlays/kigeyes-imx675-dual-sync-overlay.dts
+  overlays/kigeyes-imx675-mainboard-sync-overlay.dts
+  systemd/kigeyes-imx675-mainboard.conf
+  README.md
+
+For these files, this explicit component license takes precedence over the
+parent repository's default software license. The kernel source headers'
+GPL-2.0 identifier means version 2 only, consistent with Linux conventions.
+
+The sensor initialization values in imx675_regs.h were adapted from the
+FRAMOS IMX675 driver, copyright (c) 2024 Framos, revision
+4e772feec7f21e5ca3d485142c7df03a95c75f3c of:
+https://github.com/framosimaging/framos-jetson-drivers
+The upstream source declares GPL-2.0. Its attribution is retained in the
+register header. Explicit file licenses take precedence over the parent
+repository's general software-license notice.
+
+Separate libcamera integration and application components are not covered
+by this core-export license. Their existing licenses are unchanged; preserve
+their own notices if distributed. Sony documents and vendor source checkouts
+are not included in the core export.

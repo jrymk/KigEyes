@@ -1,0 +1,149 @@
+// SPDX-License-Identifier: GPL-2.0-only
+/dts-v1/;
+/plugin/;
+
+/*
+ * KigEyes dual IMX675 setup for the CM5 CAM0 and CAM1 connectors.
+ *
+ * Each module has its own I2C bus and its own CH32 controller at 0x30, so
+ * the identical addresses do not conflict.  The modules supply their own
+ * 24 MHz oscillators; do not enable cam0_clk/cam1_clk because those pins
+ * carry the XHS/XVS signals on these modules.
+ */
+
+/ {
+	compatible = "brcm,bcm2835";
+
+	fragment@0 {
+		target = <&i2c0if>;
+		__overlay__ {
+			status = "okay";
+		};
+	};
+
+	fragment@1 {
+		target = <&i2c0mux>;
+		__overlay__ {
+			status = "okay";
+		};
+	};
+
+	fragment@2 {
+		target = <&i2c_csi_dsi0>;
+		__overlay__ {
+			#address-cells = <1>;
+			#size-cells = <0>;
+			status = "okay";
+
+			imx675_0: camera@1a {
+				compatible = "kigeyes,imx675";
+				reg = <0x1a>;
+				kigeyes,controller-address = <0x30>;
+				kigeyes,sync-role = "master";
+				rotation = <0>;
+				orientation = <2>;
+
+				port {
+					imx675_0_ep: endpoint {
+						clock-lanes = <0>;
+						data-lanes = <1 2 3 4>;
+						clock-noncontinuous;
+						link-frequencies = /bits/ 64 <594000000 297000000>;
+						remote-endpoint = <&csi0_imx675_ep>;
+					};
+				};
+			};
+		};
+	};
+
+	fragment@3 {
+		target = <&csi0>;
+		__overlay__ {
+			status = "okay";
+
+			port {
+				csi0_imx675_ep: endpoint {
+					clock-lanes = <0>;
+					data-lanes = <1 2 3 4>;
+					clock-noncontinuous;
+					remote-endpoint = <&imx675_0_ep>;
+				};
+			};
+		};
+	};
+
+	fragment@4 {
+		target = <&i2c_csi_dsi1>;
+		__overlay__ {
+			#address-cells = <1>;
+			#size-cells = <0>;
+			status = "okay";
+
+			imx675_1: camera@1a {
+				compatible = "kigeyes,imx675";
+				reg = <0x1a>;
+				kigeyes,controller-address = <0x30>;
+				kigeyes,sync-role = "master";
+				rotation = <0>;
+				orientation = <2>;
+
+				port {
+					imx675_1_ep: endpoint {
+						clock-lanes = <0>;
+						data-lanes = <1 2 3 4>;
+						clock-noncontinuous;
+						link-frequencies = /bits/ 64 <594000000 297000000>;
+						remote-endpoint = <&csi1_imx675_ep>;
+					};
+				};
+			};
+		};
+	};
+
+	fragment@5 {
+		target = <&csi1>;
+		__overlay__ {
+			status = "okay";
+
+			port {
+				csi1_imx675_ep: endpoint {
+					clock-lanes = <0>;
+					data-lanes = <1 2 3 4>;
+					clock-noncontinuous;
+					remote-endpoint = <&imx675_1_ep>;
+				};
+			};
+		};
+	};
+
+	/*
+	 * CAM_GPIO0/1 are the module's 1.8 V XHS/XVS, not power controls.
+	 * Disable the base-board 3.3 V camera regulator output and permanently
+	 * claim both RP1 pads as inputs so no Linux consumer can drive them.
+	 */
+	fragment@6 {
+		target = <&cam0_reg>;
+		__overlay__ {
+			status = "disabled";
+		};
+	};
+
+	fragment@7 {
+		target = <&gpio>;
+		__overlay__ {
+			imx675_xhs_guard: imx675-xhs-guard {
+				gpio-hog;
+				gpios = <34 0>;
+				input;
+				line-name = "imx675-xhs-input";
+			};
+
+			imx675_xvs_guard: imx675-xvs-guard {
+				gpio-hog;
+				gpios = <35 0>;
+				input;
+				line-name = "imx675-xvs-input";
+			};
+		};
+	};
+};
