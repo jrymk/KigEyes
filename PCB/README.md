@@ -4,7 +4,8 @@
 
 | versions | status |
 | :-- | :-- |
-| v1 | work in progress (ETA: 2026/9/20) |
+| prototype | assembled, waiting for HDMI to DP converter, do not build |
+| v1 | pending |
 
 - Type C (custom protocol) power input (up to 15V) from `kigeyes-power-io-board`, includes single USB 2.0, dual USB 3.2 Gen 1, and I2C
 - Raspberry Pi Compute Module 5
@@ -13,13 +14,13 @@
 
 ## kigeyes-power-io-board
 
-| ![kigeyes-power-io-board-v1-front](../docs/assets/kigeyes-power-io-board-v1-front.png) | ![kigeyes-power-io-board-v1-back](../docs/assets/kigeyes-power-io-board-v1-back.png) |
+| ![kigeyes-power-io-board-v1-front](https://blog.jerrymk.com/media/blog/kigeyes-dev-blog-20261005/pxl-20261007-131600379-mp-3.webp) | ![kigeyes-power-io-board-v1-back](https://blog.jerrymk.com/media/blog/kigeyes-dev-blog-20261005/pxl-20261007-131838755-mp-2.webp) |
 | --- | --- |
 
 
 | versions | status |
 | :-- | :-- |
-| [v1](https://github.com/jrymk/KigEyes/tree/7198f1973b7d364ebd13c92b04e8cc514ec3cece/PCB/kigeyes-power-io-board) | finalized, untested |
+| [v1](https://github.com/jrymk/KigEyes/tree/7198f1973b7d364ebd13c92b04e8cc514ec3cece/PCB/kigeyes-power-io-board) | finalized, tested |
 
 - USB PD input (up to 15V 3A)
 - 1S LiFePO4 BQ25306 charger (up to 3A) and voltage booster
@@ -30,6 +31,22 @@
 - USB Port AUX (JST PH, USB 2.0)
 - USB Port ENV (JST PH, USB 2.0)
 - 24V/12V fan output with speed control
+
+## IMX675-camera-module
+
+- IMX675 sensor with
+    - reasonable sensor size (1/2.8") for conical M12 lenses for a small opening
+    - reasonably high resolution (2592×1944 5.12MP) for clear text reading but not too high to be wasteful by the mediocre resolution of conical lenses, Raspberry Pi processing power, and 1080p AR glasses
+    - STARVIS 2 for okay low light performance
+- MCU controlled power sequencing, power rail monitoring, and sensor configuration
+- LED status indication
+- Stereo camera sync signals through the 22P connector
+
+Note: Use opposite-side (B-type) 22P 0.5mm FFC cables
+
+| versions | status |
+| :-- | :-- |
+| v1 | tested |
 
 ## eye-tracker-mainboard
 

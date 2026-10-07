@@ -47,3 +47,9 @@ fabrication-toolkit-options.json
 # Independent public repository and Python script caches
 /public/
 __pycache__/
+
+# Local experiments, downloads, reference checkouts, and UI/editor state
+/tmp/
+.vscode/
+Thumbs.db
+/imgui.ini
