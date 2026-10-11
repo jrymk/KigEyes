@@ -4,6 +4,12 @@
 	(generator_version "10.0")
 	(uuid "4331b19c-7c9f-400c-988c-d6d21592264d")
 	(paper "A4")
+	(title_block
+		(title "KigEyes power-io-board")
+		(date "2026-10-12")
+		(rev "V1.0")
+		(company "jerrymk")
+	)
 	(lib_symbols
 		(symbol "Connector:USB_C_Receptacle"
 			(pin_names
@@ -1348,6 +1354,18 @@
 			(embedded_fonts no)
 		)
 	)
+	(text "TX and RX net names relative to the down facing ports.\nCM5 TX -> TX on mainboard Type C receptacle -> C to C cable crossover\n-> RX on power io board Type C receptacle (net TX) -> TX pins on DFP connectors (net TX)"
+		(exclude_from_sim no)
+		(at 144.78 100.33 0)
+		(effects
+			(font
+				(size 1 1)
+				(color 255 0 0 1)
+			)
+			(justify left bottom)
+		)
+		(uuid "0dd5c2b3-6f3a-40b2-838a-354b45688050")
+	)
 	(text "I2C lines should be swapped based \non detected cable orientation"
 		(exclude_from_sim no)
 		(at 147.32 123.19 0)
@@ -1374,7 +1392,7 @@
 	)
 	(text "USB3_0 and USB3_1 may swap depend on the cable orientation\nIt doesn't matter"
 		(exclude_from_sim no)
-		(at 140.97 99.06 0)
+		(at 144.78 93.98 0)
 		(effects
 			(font
 				(size 1 1)
@@ -1563,7 +1581,7 @@
 		(uuid "09353df7-962c-4b63-b846-928ddefd38cc")
 	)
 	(label "USB3_0.RX-"
-		(at 127 91.44 0)
+		(at 127 99.06 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1573,7 +1591,7 @@
 		(uuid "1140e49f-8b23-4a17-8687-68c212524835")
 	)
 	(label "USB3_1.TX-"
-		(at 127 114.3 0)
+		(at 127 106.68 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1583,7 +1601,7 @@
 		(uuid "28dc096d-61a9-42c1-a151-e20ffada88fc")
 	)
 	(label "USB3_1.RX-"
-		(at 127 106.68 0)
+		(at 127 114.3 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1593,7 +1611,7 @@
 		(uuid "390ac94e-5aee-4386-a6dc-3f4825c048c1")
 	)
 	(label "USB3_1.TX+"
-		(at 127 116.84 0)
+		(at 127 109.22 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1623,7 +1641,7 @@
 		(uuid "734ee4b5-6077-4a0c-981a-89ce1b6f0b3b")
 	)
 	(label "USB3_1.RX+"
-		(at 127 109.22 0)
+		(at 127 116.84 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1633,7 +1651,7 @@
 		(uuid "7cfa5f51-99b8-4e38-8310-b08ae47077b4")
 	)
 	(label "USB3_0.TX+"
-		(at 127 101.6 0)
+		(at 127 93.98 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1663,7 +1681,7 @@
 		(uuid "c5d4ad5f-9443-4477-b234-d410236bd5e8")
 	)
 	(label "USB3_0.RX+"
-		(at 127 93.98 0)
+		(at 127 101.6 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1673,7 +1691,7 @@
 		(uuid "cb8ec2e7-af76-4620-be29-4d834fe184e8")
 	)
 	(label "USB3_0.TX-"
-		(at 127 99.06 0)
+		(at 127 91.44 0)
 		(effects
 			(font
 				(size 1.27 1.27)

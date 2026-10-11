@@ -4,6 +4,12 @@
 	(generator_version "10.0")
 	(uuid "89439fb1-af61-41a8-946a-181f05cc6760")
 	(paper "A4")
+	(title_block
+		(title "KigEyes power-io-board")
+		(date "2026-10-12")
+		(rev "V1.0")
+		(company "jerrymk")
+	)
 	(lib_symbols
 		(symbol "Connector_Generic_MountingPin:Conn_01x04_MountingPin"
 			(pin_names
@@ -2161,7 +2167,7 @@
 			)
 		)
 		(pin "1"
-			(uuid "5daf99b0-d96b-4634-84d8-dbaebd33287a")
+			(uuid "c905ce18-6d30-4aac-9419-a775164912ef")
 		)
 		(instances
 			(project "kigeyes-power-io-board"
@@ -2265,22 +2271,22 @@
 			)
 		)
 		(pin "1"
-			(uuid "c7505af6-34e4-447d-8be3-b394d04df59a")
+			(uuid "9eb6c681-8005-45ea-a8c5-b3997a62aa9d")
 		)
 		(pin "3"
-			(uuid "17c10e26-6c90-4115-a255-33c31319440c")
+			(uuid "bf9b8736-7cef-4bbc-b16d-69f470b22da2")
 		)
 		(pin "6"
-			(uuid "8ca15f69-65fe-4e06-bbad-b6b15f5dba5d")
+			(uuid "bf38c863-88d6-4edf-a267-4db1d577c915")
 		)
 		(pin "2"
-			(uuid "89d880d4-0c6d-4419-bbce-2e0a90f3ec28")
+			(uuid "fed232c7-ff23-4ab0-9926-ce87ed638ea0")
 		)
 		(pin "5"
-			(uuid "345eb597-55ba-4d8f-9b5e-f8bb28d7ea7b")
+			(uuid "8b820370-4ca6-4728-a647-2dbc92b68270")
 		)
 		(pin "4"
-			(uuid "612ce755-d8aa-4a0f-8ee3-a2e6049bd57f")
+			(uuid "32a8788f-b4cd-4c66-a0ab-98149379b896")
 		)
 		(instances
 			(project "kigeyes-power-io-board"
@@ -2358,7 +2364,7 @@
 			)
 		)
 		(pin "1"
-			(uuid "a63c3d53-a614-44e3-bf38-d24ffd7f2f85")
+			(uuid "71a8ddf2-51cb-4f51-a740-fd0d76965851")
 		)
 		(instances
 			(project "kigeyes-power-io-board"
@@ -2392,7 +2398,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "Conn_01x04_MountingPin"
+		(property "Value" "JST_PH_4P"
 			(at 208.28 74.0155 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2437,19 +2443,19 @@
 			)
 		)
 		(pin "MP"
-			(uuid "2e77aa66-6a67-42fe-afb9-cafa37a5ecb0")
+			(uuid "32aa172e-3d64-415b-80fa-5c5e57e9a9ea")
 		)
 		(pin "1"
-			(uuid "a32aa497-0a00-4a65-b423-c08f7ede12f5")
+			(uuid "2144a6a0-ce55-44eb-bb65-f9e9295d4b7c")
 		)
 		(pin "2"
-			(uuid "e54181f0-6631-4f8a-b9a9-1adba4290036")
+			(uuid "ecc3ff60-e69e-429c-bd2e-a5de50555b29")
 		)
 		(pin "3"
-			(uuid "c9d7e5dc-1587-493f-a589-1662b92df7dc")
+			(uuid "a7ee5cce-b024-4bc1-ada8-951a03b44614")
 		)
 		(pin "4"
-			(uuid "4ba96ccf-29ba-4707-9c9a-2778315e494b")
+			(uuid "8dcd096b-94c7-4377-8c1e-b578255747c7")
 		)
 		(instances
 			(project "kigeyes-power-io-board"
@@ -2528,10 +2534,10 @@
 			)
 		)
 		(pin "2"
-			(uuid "3c7323ee-7a6b-46a4-a203-cd91b826d9bc")
+			(uuid "b6fba255-5d79-42b0-a647-f7973dbdea76")
 		)
 		(pin "1"
-			(uuid "dd97a4b2-3d44-4c29-a73f-2d67c298b86a")
+			(uuid "57a169e4-2319-4f92-ae29-66dbc87c6eb9")
 		)
 		(instances
 			(project "kigeyes-power-io-board"
@@ -2610,10 +2616,10 @@
 			)
 		)
 		(pin "1"
-			(uuid "be25a32e-f056-42b5-966d-3fb6b642b6af")
+			(uuid "314f6c92-c46e-4e01-8e5a-6193e41271cd")
 		)
 		(pin "2"
-			(uuid "4d6bc847-9a59-4fdc-9ce4-a0b52d506268")
+			(uuid "715e9f98-b087-42bc-b705-0e1fb8446f67")
 		)
 		(instances
 			(project "kigeyes-power-io-board"
@@ -2691,7 +2697,7 @@
 			)
 		)
 		(pin "1"
-			(uuid "c50c84a4-ebdd-48ca-8381-55a62b59259e")
+			(uuid "63947d13-98b2-4d42-a8dd-30e5e8c23814")
 		)
 		(instances
 			(project "kigeyes-power-io-board"
@@ -2769,7 +2775,7 @@
 			)
 		)
 		(pin "1"
-			(uuid "5022f9af-3ad0-422a-b64b-2db510c746a1")
+			(uuid "d7785ff7-f0b4-46c1-ada7-e20bf67245a2")
 		)
 		(instances
 			(project "kigeyes-power-io-board"
@@ -2848,10 +2854,10 @@
 			)
 		)
 		(pin "1"
-			(uuid "5fc33fed-d1b7-4072-8c3d-7d1648ad89c0")
+			(uuid "ea9283af-5470-480a-9326-ae712eb83474")
 		)
 		(pin "2"
-			(uuid "b6c38b55-da23-4062-9763-4d31beb00c23")
+			(uuid "8fe416bc-468c-4a17-98a8-09eb6f645b55")
 		)
 		(instances
 			(project "kigeyes-power-io-board"
@@ -2929,7 +2935,7 @@
 			)
 		)
 		(pin "1"
-			(uuid "4bfb9970-db72-49a0-9f59-a4d9e47642ae")
+			(uuid "f931c090-92f5-442a-b12f-a46e58600ee0")
 		)
 		(instances
 			(project "kigeyes-power-io-board"
@@ -3007,7 +3013,7 @@
 			)
 		)
 		(pin "1"
-			(uuid "86e7ac40-d0dc-4bb0-b437-623db19e2d83")
+			(uuid "b7c00971-1298-42f2-a669-197f0c164cc9")
 		)
 		(instances
 			(project "kigeyes-power-io-board"
@@ -3086,10 +3092,10 @@
 			)
 		)
 		(pin "1"
-			(uuid "d2007035-e00a-4036-9818-7b0c90504621")
+			(uuid "6765a57f-7892-475d-8a7d-29bb1ea23b08")
 		)
 		(pin "2"
-			(uuid "9626eb44-d302-49e1-b8ea-d3f651939e7c")
+			(uuid "110bc8cf-b3c6-4ba8-a319-de206c5cb75a")
 		)
 		(instances
 			(project "kigeyes-power-io-board"
@@ -3169,10 +3175,10 @@
 			)
 		)
 		(pin "1"
-			(uuid "fa0d49eb-fa1c-44e6-84dc-b336c61824aa")
+			(uuid "5cd2ce02-7481-4df1-a788-b20c6d705c53")
 		)
 		(pin "2"
-			(uuid "44e154f7-6e16-4269-8c22-ee1b91a2d900")
+			(uuid "e2e64a94-47b6-427c-8a56-3d15cd84a432")
 		)
 		(instances
 			(project "kigeyes-power-io-board"
@@ -3250,7 +3256,7 @@
 			)
 		)
 		(pin "1"
-			(uuid "1a40f882-ae6a-47bb-b3a3-067b110c6b2b")
+			(uuid "14ca438f-5f02-436b-a169-4e3747b38ca5")
 		)
 		(instances
 			(project "kigeyes-power-io-board"
@@ -3327,25 +3333,25 @@
 			)
 		)
 		(pin "1"
-			(uuid "9779affd-7731-40fa-9887-189a70ff35cd")
+			(uuid "627cfed8-c907-4db5-a0b3-c1fee7cea829")
 		)
 		(pin "3"
-			(uuid "84f2657b-c271-4522-bf6f-ba9655cd94a5")
+			(uuid "c62427ea-516c-46fb-9299-a4ca94baa664")
 		)
 		(pin "2"
-			(uuid "93b12724-368d-4faf-bcc8-ecd073113d99")
+			(uuid "06b8349a-3cf1-438a-834f-ae7663ec460e")
 		)
 		(pin "4"
-			(uuid "1408414d-dc83-475e-9d1f-990218677c09")
+			(uuid "32f72ec3-9168-4c8c-bc49-516531c7b8e2")
 		)
 		(pin "5"
-			(uuid "d48117b5-1e5d-45e0-95e2-8f5242d71e56")
+			(uuid "dfd1d094-8f27-460f-a0c1-507925755031")
 		)
 		(pin "6"
-			(uuid "9229c5c3-b25f-41bb-84fa-e4d0efcabc68")
+			(uuid "56de2363-abc7-432b-b99b-57c56a3e2b1d")
 		)
 		(pin "7"
-			(uuid "cd2b03a5-0581-459b-a22e-15c6791ee663")
+			(uuid "c5759dea-6cda-4415-ac70-c463e958021a")
 		)
 		(instances
 			(project "kigeyes-power-io-board"
@@ -3424,10 +3430,10 @@
 			)
 		)
 		(pin "2"
-			(uuid "2d2faa01-5525-49b5-bf26-300da598e4f0")
+			(uuid "147b248e-7079-460f-9383-5b24990feef1")
 		)
 		(pin "1"
-			(uuid "08e259d6-9512-4a5b-a3ca-1bd87a5cbdb3")
+			(uuid "faaabd04-d320-40ad-a408-9cfe4583fd99")
 		)
 		(instances
 			(project "kigeyes-power-io-board"

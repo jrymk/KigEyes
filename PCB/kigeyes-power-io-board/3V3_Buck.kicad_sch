@@ -4,6 +4,12 @@
 	(generator_version "10.0")
 	(uuid "aaf9530f-b5f4-4498-ad99-cce5340e4553")
 	(paper "A4")
+	(title_block
+		(title "KigEyes power-io-board")
+		(date "2026-10-12")
+		(rev "V1.0")
+		(company "jerrymk")
+	)
 	(lib_symbols
 		(symbol "Device:C_Small"
 			(pin_numbers
@@ -1559,7 +1565,7 @@
 				(justify right)
 			)
 		)
-		(property "Value" "312k"
+		(property "Value" "309k"
 			(at 166.37 99.0599 0)
 			(show_name no)
 			(do_not_autoplace no)

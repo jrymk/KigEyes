@@ -4,6 +4,12 @@
 	(generator_version "10.0")
 	(uuid "7f3a350d-5dee-4adc-81ba-0be3ed7207aa")
 	(paper "A4")
+	(title_block
+		(title "KigEyes power-io-board")
+		(date "2026-10-12")
+		(rev "V1.0")
+		(company "jerrymk")
+	)
 	(lib_symbols
 		(symbol "Device:C_Small"
 			(pin_numbers
@@ -1511,7 +1517,7 @@
 		(uuid "25c03de9-bbdb-4d0e-b0c6-3298b5e061d4")
 	)
 	(junction
-		(at 64.77 104.14)
+		(at 64.77 101.6)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "39ec26f5-1b96-4323-9cca-aaf6702f0c8b")
@@ -1565,7 +1571,7 @@
 		(uuid "73d2572d-5cc4-4ecc-b238-0f3396e5cfce")
 	)
 	(junction
-		(at 60.96 104.14)
+		(at 60.96 101.6)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "755c9f30-c110-4c7a-b19d-8141a0c33e97")
@@ -1595,7 +1601,7 @@
 		(uuid "a37e60d4-88a5-4dfb-a6e1-d744e926aa62")
 	)
 	(junction
-		(at 50.8 119.38)
+		(at 48.26 119.38)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "a875782a-3809-41f2-b44b-26da78b6c72e")
@@ -1678,7 +1684,7 @@
 	)
 	(wire
 		(pts
-			(xy 64.77 104.14) (xy 73.66 104.14)
+			(xy 64.77 101.6) (xy 73.66 101.6)
 		)
 		(stroke
 			(width 0)
@@ -1718,7 +1724,7 @@
 	)
 	(wire
 		(pts
-			(xy 45.72 104.14) (xy 45.72 111.76)
+			(xy 40.64 101.6) (xy 40.64 111.76)
 		)
 		(stroke
 			(width 0)
@@ -1808,16 +1814,6 @@
 	)
 	(wire
 		(pts
-			(xy 60.96 104.14) (xy 64.77 104.14)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "2dc59238-6ac7-47df-9529-1e02338c205e")
-	)
-	(wire
-		(pts
 			(xy 160.02 38.1) (xy 162.56 38.1)
 		)
 		(stroke
@@ -1878,7 +1874,7 @@
 	)
 	(wire
 		(pts
-			(xy 60.96 111.76) (xy 54.61 111.76)
+			(xy 52.07 111.76) (xy 69.85 111.76)
 		)
 		(stroke
 			(width 0)
@@ -1938,13 +1934,13 @@
 	)
 	(wire
 		(pts
-			(xy 69.85 111.76) (xy 60.96 111.76)
+			(xy 60.96 101.6) (xy 60.96 105.41)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "53002a34-9961-4384-8dc0-da8b765ccfd0")
+		(uuid "5253edeb-267d-4a38-89d4-f2f67289444f")
 	)
 	(wire
 		(pts
@@ -2078,7 +2074,7 @@
 	)
 	(wire
 		(pts
-			(xy 50.8 116.84) (xy 50.8 119.38)
+			(xy 48.26 116.84) (xy 48.26 119.38)
 		)
 		(stroke
 			(width 0)
@@ -2258,7 +2254,7 @@
 	)
 	(wire
 		(pts
-			(xy 60.96 104.14) (xy 45.72 104.14)
+			(xy 40.64 101.6) (xy 64.77 101.6)
 		)
 		(stroke
 			(width 0)
@@ -2308,7 +2304,7 @@
 	)
 	(wire
 		(pts
-			(xy 50.8 119.38) (xy 50.8 120.65)
+			(xy 48.26 119.38) (xy 48.26 120.65)
 		)
 		(stroke
 			(width 0)
@@ -2378,7 +2374,7 @@
 	)
 	(wire
 		(pts
-			(xy 46.99 111.76) (xy 45.72 111.76)
+			(xy 44.45 111.76) (xy 40.64 111.76)
 		)
 		(stroke
 			(width 0)
@@ -2438,7 +2434,7 @@
 	)
 	(wire
 		(pts
-			(xy 73.66 109.22) (xy 73.66 104.14)
+			(xy 73.66 109.22) (xy 73.66 101.6)
 		)
 		(stroke
 			(width 0)
@@ -2518,7 +2514,7 @@
 	)
 	(wire
 		(pts
-			(xy 64.77 119.38) (xy 50.8 119.38)
+			(xy 64.77 119.38) (xy 48.26 119.38)
 		)
 		(stroke
 			(width 0)
@@ -2648,7 +2644,7 @@
 	)
 	(wire
 		(pts
-			(xy 64.77 104.14) (xy 64.77 113.03)
+			(xy 64.77 101.6) (xy 64.77 113.03)
 		)
 		(stroke
 			(width 0)
@@ -2725,16 +2721,6 @@
 			(type default)
 		)
 		(uuid "ed97977d-78f6-426c-b1c1-6bb32c51e1a6")
-	)
-	(wire
-		(pts
-			(xy 60.96 104.14) (xy 60.96 105.41)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "ee4af107-8f04-450b-8d03-aff02ecb254f")
 	)
 	(wire
 		(pts
@@ -3637,7 +3623,7 @@
 	)
 	(symbol
 		(lib_id "Device:Crystal_GND24")
-		(at 50.8 111.76 0)
+		(at 48.26 111.76 0)
 		(mirror y)
 		(unit 1)
 		(body_style 1)
@@ -3649,7 +3635,7 @@
 		(fields_autoplaced yes)
 		(uuid "1e235b2b-191d-47fe-b920-a9608ffb7a41")
 		(property "Reference" "Y401"
-			(at 50.8 102.87 0)
+			(at 48.26 102.87 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -3658,8 +3644,8 @@
 				)
 			)
 		)
-		(property "Value" "24MHz"
-			(at 50.8 105.41 0)
+		(property "Value" "24MHz 10pF"
+			(at 48.26 105.41 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -3669,7 +3655,7 @@
 			)
 		)
 		(property "Footprint" "Crystal:Crystal_SMD_SeikoEpson_FA238-4Pin_3.2x2.5mm"
-			(at 50.8 111.76 0)
+			(at 48.26 111.76 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3680,7 +3666,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 50.8 111.76 0)
+			(at 48.26 111.76 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3691,7 +3677,7 @@
 			)
 		)
 		(property "Description" "Four pin crystal, GND on pins 2 and 4"
-			(at 50.8 111.76 0)
+			(at 48.26 111.76 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3702,7 +3688,7 @@
 			)
 		)
 		(property private "KLC_S3.3" "The rectangle is not a symbol body but a graphical element"
-			(at 50.8 124.46 0)
+			(at 48.26 124.46 0)
 			(hide yes)
 			(show_name yes)
 			(do_not_autoplace no)
@@ -3713,7 +3699,7 @@
 			)
 		)
 		(property private "KLC_S4.1" "Some pins are on 50mil grid to make the symbol small"
-			(at 50.8 127 0)
+			(at 48.26 127 0)
 			(hide yes)
 			(show_name yes)
 			(do_not_autoplace no)
@@ -3905,7 +3891,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 50.8 120.65 0)
+		(at 48.26 120.65 0)
 		(mirror y)
 		(unit 1)
 		(body_style 1)
@@ -3917,7 +3903,7 @@
 		(fields_autoplaced yes)
 		(uuid "348779be-815e-4a70-970d-bb265afd68ec")
 		(property "Reference" "#PWR0401"
-			(at 50.8 127 0)
+			(at 48.26 127 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3928,7 +3914,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 50.8 125.73 0)
+			(at 48.26 125.73 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -3938,7 +3924,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 50.8 120.65 0)
+			(at 48.26 120.65 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3949,7 +3935,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 50.8 120.65 0)
+			(at 48.26 120.65 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3960,7 +3946,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 50.8 120.65 0)
+			(at 48.26 120.65 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)

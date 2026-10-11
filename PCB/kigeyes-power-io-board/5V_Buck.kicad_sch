@@ -4,6 +4,12 @@
 	(generator_version "10.0")
 	(uuid "b75df809-f0f1-484d-b48a-ad0d2d546417")
 	(paper "A4")
+	(title_block
+		(title "KigEyes power-io-board")
+		(date "2026-10-12")
+		(rev "V1.0")
+		(company "jerrymk")
+	)
 	(lib_symbols
 		(symbol "Device:C_Small"
 			(pin_numbers
@@ -708,10 +714,9 @@
 						)
 					)
 				)
-				(pin no_connect line
+				(pin unspecified line
 					(at 10.16 -5.08 180)
 					(length 2.54)
-					(hide yes)
 					(name "NC"
 						(effects
 							(font
@@ -764,7 +769,7 @@
 					)
 				)
 				(pin unspecified line
-					(at 10.16 -7.62 180)
+					(at 10.16 -10.16 180)
 					(length 2.54)
 					(name "AGND"
 						(effects
@@ -817,10 +822,9 @@
 						)
 					)
 				)
-				(pin no_connect line
-					(at 10.16 -5.08 180)
+				(pin unspecified line
+					(at 10.16 -7.62 180)
 					(length 2.54)
-					(hide yes)
 					(name "NC"
 						(effects
 							(font
@@ -1123,6 +1127,12 @@
 		(uuid "79ffe83e-fd07-467a-adf8-68fafb02a41c")
 	)
 	(junction
+		(at 162.56 97.79)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "816e92be-a6b5-4d83-bbb2-7e8f76d11984")
+	)
+	(junction
 		(at 190.5 92.71)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -1145,6 +1155,12 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "b961fafc-f485-472c-a5c5-ccf2a0b58131")
+	)
+	(junction
+		(at 162.56 100.33)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "c3e21dd5-0078-4a01-ab3c-c1ffc9e5ec74")
 	)
 	(junction
 		(at 99.06 90.17)
@@ -1223,6 +1239,16 @@
 			(type default)
 		)
 		(uuid "0d371014-186e-44d9-9717-21e4b5343a37")
+	)
+	(wire
+		(pts
+			(xy 160.02 100.33) (xy 162.56 100.33)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "11276464-2071-42ad-ab26-4ef8a294aa8c")
 	)
 	(wire
 		(pts
@@ -1393,6 +1419,16 @@
 			(type default)
 		)
 		(uuid "58bf3a57-cbb9-48f7-a603-fa7299031770")
+	)
+	(wire
+		(pts
+			(xy 162.56 100.33) (xy 162.56 102.87)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "5fe2bb1b-ce36-4bbc-aa12-d1b981006734")
 	)
 	(wire
 		(pts
@@ -1586,13 +1622,23 @@
 	)
 	(wire
 		(pts
-			(xy 162.56 97.79) (xy 162.56 102.87)
+			(xy 162.56 97.79) (xy 162.56 100.33)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
 		(uuid "9c6fff0a-73a7-4160-85d1-486e7ea87bcf")
+	)
+	(wire
+		(pts
+			(xy 162.56 95.25) (xy 162.56 97.79)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "9f730187-383f-43d1-86ab-31a7284d8fcd")
 	)
 	(wire
 		(pts
@@ -1753,6 +1799,16 @@
 			(type default)
 		)
 		(uuid "e1f88e9a-8eb3-42b3-972e-6e96aac860b8")
+	)
+	(wire
+		(pts
+			(xy 160.02 95.25) (xy 162.56 95.25)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ebd85d42-1ad1-456c-ac92-325bfde12fde")
 	)
 	(wire
 		(pts
