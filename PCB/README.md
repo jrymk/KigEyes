@@ -20,7 +20,7 @@
 
 | versions | status |
 | :-- | :-- |
-| [v1](https://github.com/jrymk/KigEyes/tree/7198f1973b7d364ebd13c92b04e8cc514ec3cece/PCB/kigeyes-power-io-board) | finalized, tested |
+| [v1](https://github.com/jrymk/KigEyes/tree/dbb5fbab16420fb983b5ba6c4678849511922e23/PCB/kigeyes-power-io-board) | finalized, tested |
 
 - USB PD input (up to 15V 3A)
 - 1S LiFePO4 BQ25306 charger (up to 3A) and voltage booster
