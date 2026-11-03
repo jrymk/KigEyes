@@ -1,0 +1,22 @@
+.gradle/
+.kotlin/
+**/build/
+local.properties
+.idea/
+*.iml
+!**/*.xml
+
+# Private signing/configuration and generated packages
+*.jks
+*.keystore
+*.p12
+*.pfx
+*.pem
+*.key
+.env
+.env.*
+keystore.properties
+signing.properties
+*.apk
+*.aab
+__pycache__/
