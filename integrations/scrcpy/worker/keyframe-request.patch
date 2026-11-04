@@ -1,0 +1,65 @@
+--- a/server/src/main/java/com/genymobile/scrcpy/control/ControlMessage.java
++++ b/server/src/main/java/com/genymobile/scrcpy/control/ControlMessage.java
+@@ -32,6 +32,7 @@
+     public static final int TYPE_SCAN_FILE = 22;
+     // KigEyes protocol extension, version-pinned with the Pi client.
+     public static final int TYPE_PANEL_HEARTBEAT = 126;
++    public static final int TYPE_REQUEST_KEYFRAME = 127;
+ 
+     public static final long SEQUENCE_INVALID = 0;
+ 
+--- a/server/src/main/java/com/genymobile/scrcpy/control/ControlMessageReader.java
++++ b/server/src/main/java/com/genymobile/scrcpy/control/ControlMessageReader.java
+@@ -50,6 +50,7 @@
+             case ControlMessage.TYPE_CAMERA_ZOOM_IN:
+             case ControlMessage.TYPE_CAMERA_ZOOM_OUT:
+             case ControlMessage.TYPE_PANEL_HEARTBEAT:
++            case ControlMessage.TYPE_REQUEST_KEYFRAME:
+                 return ControlMessage.createEmpty(type);
+             case ControlMessage.TYPE_UHID_CREATE:
+                 return parseUhidCreate();
+--- a/server/src/main/java/com/genymobile/scrcpy/control/Controller.java
++++ b/server/src/main/java/com/genymobile/scrcpy/control/Controller.java
+@@ -347,6 +347,11 @@
+             case ControlMessage.TYPE_PANEL_HEARTBEAT:
+                 renewPanelLease();
+                 return true;
++            case ControlMessage.TYPE_REQUEST_KEYFRAME:
++                if (surfaceCapture != null && surfaceCapture.getCaptureControl() != null) {
++                    surfaceCapture.getCaptureControl().requestKeyFrame();
++                }
++                return true;
+             case ControlMessage.TYPE_RESET_VIDEO:
+                 resetVideo();
+                 return true;
+--- a/server/src/main/java/com/genymobile/scrcpy/video/CaptureControl.java
++++ b/server/src/main/java/com/genymobile/scrcpy/video/CaptureControl.java
+@@ -1,6 +1,7 @@
+ package com.genymobile.scrcpy.video;
+ 
+ import android.media.MediaCodec;
++import android.os.Bundle;
+ 
+ public class CaptureControl {
+ 
+@@ -36,6 +37,20 @@
+         }
+     }
+ 
++    /** Ask the existing encoder for a recovery frame without restarting capture. */
++    public synchronized void requestKeyFrame() {
++        if (runningMediaCodec == null || reset != 0) {
++            return;
++        }
++        Bundle parameters = new Bundle();
++        parameters.putInt(MediaCodec.PARAMETER_KEY_REQUEST_SYNC_FRAME, 0);
++        try {
++            runningMediaCodec.setParameters(parameters);
++        } catch (IllegalStateException | IllegalArgumentException ignored) {
++            // Optional encoder hint. A rejected hint must not reset healthy video.
++        }
++    }
++
+     public synchronized void setRunningMediaCodec(MediaCodec runningMediaCodec) {
+         this.runningMediaCodec = runningMediaCodec;
+     }

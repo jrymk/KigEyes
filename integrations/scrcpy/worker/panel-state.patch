@@ -1,0 +1,22 @@
+--- a/server/src/main/java/com/genymobile/scrcpy/control/Controller.java
++++ b/server/src/main/java/com/genymobile/scrcpy/control/Controller.java
+@@ -896,7 +896,9 @@
+     }
+ 
+     private synchronized void restoreExpiredPanel() {
+-        if (guardedPanel != null && guardedPanel.armed() && !Device.isScreenOn(0)) {
++        // Physical Power must release ordinary blanking too. Guarded mode still
++        // verifies keyguard inside setDisplayPower before restoring.
++        if (keepDisplayPowerOff && !Device.isScreenOn(0)) {
+             setDisplayPower(true);
+         } else if (panelLease.expired(SystemClock.elapsedRealtime())) {
+             Ln.i("Panel heartbeat expired; restoring physical display");
+@@ -919,6 +921,8 @@
+         int targetDisplayId = displayId != Device.DISPLAY_ID_NONE ? displayId : 0;
+         boolean setDisplayPowerOk = Device.setDisplayPower(targetDisplayId, on);
+         if (setDisplayPowerOk) {
++            // Confirm only successful panel operations, including automatic restores.
++            reportGuard(on ? 4 : 5);
+             if (on) {
+                 panelLease.clear();
+             } else {

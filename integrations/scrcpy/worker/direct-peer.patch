@@ -1,0 +1,46 @@
+--- a/server/src/main/java/com/genymobile/scrcpy/device/DesktopConnection.java
++++ b/server/src/main/java/com/genymobile/scrcpy/device/DesktopConnection.java
+@@ -53,6 +53,16 @@
+         return SOCKET_NAME_PREFIX + String.format("_%08x", scid);
+     }
+ 
++    private static LocalSocket accept(LocalServerSocket listener) throws IOException {
++        while (true) {
++            LocalSocket peer = listener.accept();
++            if (!Boolean.getBoolean("kigeyes.direct") || peer.getPeerCredentials().getUid() == 2000) {
++                return peer;
++            }
++            peer.close();
++        }
++    }
++
+     public static DesktopConnection open(int scid, boolean tunnelForward, boolean video, boolean audio, boolean control, boolean sendDummyByte)
+             throws IOException {
+         String socketName = getSocketName(scid);
+@@ -64,7 +74,7 @@
+             if (tunnelForward) {
+                 try (LocalServerSocket localServerSocket = new LocalServerSocket(socketName)) {
+                     if (video) {
+-                        videoSocket = localServerSocket.accept();
++                        videoSocket = accept(localServerSocket);
+                         if (sendDummyByte) {
+                             // send one byte so the client may read() to detect a connection error
+                             videoSocket.getOutputStream().write(0);
+@@ -72,7 +82,7 @@
+                         }
+                     }
+                     if (audio) {
+-                        audioSocket = localServerSocket.accept();
++                        audioSocket = accept(localServerSocket);
+                         if (sendDummyByte) {
+                             // send one byte so the client may read() to detect a connection error
+                             audioSocket.getOutputStream().write(0);
+@@ -80,7 +90,7 @@
+                         }
+                     }
+                     if (control) {
+-                        controlSocket = localServerSocket.accept();
++                        controlSocket = accept(localServerSocket);
+                         if (sendDummyByte) {
+                             // send one byte so the client may read() to detect a connection error
+                             controlSocket.getOutputStream().write(0);

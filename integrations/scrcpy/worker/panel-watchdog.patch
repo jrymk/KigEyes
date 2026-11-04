@@ -1,0 +1,126 @@
+--- a/server/src/main/java/com/genymobile/scrcpy/control/ControlMessage.java
++++ b/server/src/main/java/com/genymobile/scrcpy/control/ControlMessage.java
+@@ -30,6 +30,8 @@
+     public static final int TYPE_CAMERA_ZOOM_OUT = 20;
+     public static final int TYPE_RESIZE_DISPLAY = 21;
+     public static final int TYPE_SCAN_FILE = 22;
++    // KigEyes protocol extension, version-pinned with the Pi client.
++    public static final int TYPE_PANEL_HEARTBEAT = 126;
+ 
+     public static final long SEQUENCE_INVALID = 0;
+ 
+--- a/server/src/main/java/com/genymobile/scrcpy/control/ControlMessageReader.java
++++ b/server/src/main/java/com/genymobile/scrcpy/control/ControlMessageReader.java
+@@ -49,6 +49,7 @@
+             case ControlMessage.TYPE_RESET_VIDEO:
+             case ControlMessage.TYPE_CAMERA_ZOOM_IN:
+             case ControlMessage.TYPE_CAMERA_ZOOM_OUT:
++            case ControlMessage.TYPE_PANEL_HEARTBEAT:
+                 return ControlMessage.createEmpty(type);
+             case ControlMessage.TYPE_UHID_CREATE:
+                 return parseUhidCreate();
+--- a/server/src/main/java/com/genymobile/scrcpy/control/Controller.java
++++ b/server/src/main/java/com/genymobile/scrcpy/control/Controller.java
+@@ -38,6 +38,7 @@
+ import java.util.concurrent.ExecutorService;
+ import java.util.concurrent.Executors;
+ import java.util.concurrent.ScheduledExecutorService;
++import java.util.concurrent.ScheduledFuture;
+ import java.util.concurrent.TimeUnit;
+ import java.util.concurrent.atomic.AtomicBoolean;
+ import java.util.concurrent.atomic.AtomicReference;
+@@ -107,7 +108,9 @@
+     private final MotionEvent.PointerProperties[] pointerProperties = new MotionEvent.PointerProperties[PointersState.MAX_POINTERS];
+     private final MotionEvent.PointerCoords[] pointerCoords = new MotionEvent.PointerCoords[PointersState.MAX_POINTERS];
+ 
+-    private boolean keepDisplayPowerOff;
++    private volatile boolean keepDisplayPowerOff;
++    private final PanelPowerLease panelLease = new PanelPowerLease();
++    private ScheduledFuture<?> panelWatchdog;
+ 
+     // Used for resetting video encoding on RESET_VIDEO message or for sending camera controls
+     private SurfaceCapture surfaceCapture;
+@@ -272,6 +275,9 @@
+ 
+     @Override
+     public void start(TerminationListener listener) {
++        if (!camera) {
++            panelWatchdog = EXECUTOR.scheduleWithFixedDelay(this::restoreExpiredPanel, 500, 500, TimeUnit.MILLISECONDS);
++        }
+         if (keepActive) {
+             startKeepActiveThread();
+         }
+@@ -297,6 +303,10 @@
+ 
+     @Override
+     public void stop() {
++        if (panelWatchdog != null) {
++            panelWatchdog.cancel(false);
++        }
++        restoreLeasedPanel();
+         if (keepActiveThread != null) {
+             keepActiveThread.interrupt();
+         }
+@@ -334,6 +344,9 @@
+ 
+         // Events for all sources (display or camera)
+         switch (type) {
++            case ControlMessage.TYPE_PANEL_HEARTBEAT:
++                renewPanelLease();
++                return true;
+             case ControlMessage.TYPE_RESET_VIDEO:
+                 resetVideo();
+                 return true;
+@@ -648,10 +661,14 @@
+     /**
+      * Schedule a call to set display power to off after a small delay.
+      */
+-    private static void scheduleDisplayPowerOff(int displayId) {
++    private void scheduleDisplayPowerOff(int displayId) {
+         EXECUTOR.schedule(() -> {
+-            Ln.i("Forcing display off");
+-            Device.setDisplayPower(displayId, false);
++            synchronized (Controller.this) {
++                if (keepDisplayPowerOff && !panelLease.expired(SystemClock.elapsedRealtime())) {
++                    Ln.i("Forcing display off");
++                    Device.setDisplayPower(displayId, false);
++                }
++            }
+         }, 200, TimeUnit.MILLISECONDS);
+     }
+ 
+@@ -854,11 +871,33 @@
+         }
+     }
+ 
+-    private void setDisplayPower(boolean on) {
++    private synchronized void renewPanelLease() {
++        panelLease.renew(SystemClock.elapsedRealtime());
++    }
++
++    private synchronized void restoreExpiredPanel() {
++        if (panelLease.expired(SystemClock.elapsedRealtime())) {
++            Ln.i("Panel heartbeat expired; restoring physical display");
++            setDisplayPower(true);
++        }
++    }
++
++    private synchronized void restoreLeasedPanel() {
++        if (panelLease.armed()) {
++            setDisplayPower(true);
++        }
++    }
++
++    private synchronized void setDisplayPower(boolean on) {
+         // Change the power of the main display when mirroring a virtual display
+         int targetDisplayId = displayId != Device.DISPLAY_ID_NONE ? displayId : 0;
+         boolean setDisplayPowerOk = Device.setDisplayPower(targetDisplayId, on);
+         if (setDisplayPowerOk) {
++            if (on) {
++                panelLease.clear();
++            } else {
++                panelLease.arm(SystemClock.elapsedRealtime());
++            }
+             // Do not keep display power off for virtual displays: MOD+p must wake up the physical device
+             keepDisplayPowerOff = displayId != Device.DISPLAY_ID_NONE && !on;
+             Ln.i("Device display turned " + (on ? "on" : "off"));

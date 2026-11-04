@@ -1,0 +1,114 @@
+--- a/server/src/main/java/com/genymobile/scrcpy/control/ControlMessage.java
++++ b/server/src/main/java/com/genymobile/scrcpy/control/ControlMessage.java
+@@ -32,7 +32,8 @@
+     public static final int TYPE_SCAN_FILE = 22;
+     // KigEyes protocol extension, version-pinned with the Pi client.
+     public static final int TYPE_PANEL_HEARTBEAT = 126;
+     public static final int TYPE_REQUEST_KEYFRAME = 127;
++    public static final int TYPE_GUARDED_PANEL_OFF = 128;
+ 
+     public static final long SEQUENCE_INVALID = 0;
+ 
+--- a/server/src/main/java/com/genymobile/scrcpy/control/ControlMessageReader.java
++++ b/server/src/main/java/com/genymobile/scrcpy/control/ControlMessageReader.java
+@@ -18,8 +18,27 @@
+ 
+     private final DataInputStream dis;
+ 
+-    public ControlMessageReader(InputStream rawInputStream) {
+-        dis = new DataInputStream(new BufferedInputStream(rawInputStream));
++    private java.io.ByteArrayOutputStream captured;
++    public ControlMessageReader(InputStream rawInputStream) { this(rawInputStream, false); }
++    /** Direct worker relay records after buffering, so local commands never split a packet. */
++    public ControlMessageReader(InputStream rawInputStream, boolean recordPackets) {
++        InputStream input = new BufferedInputStream(rawInputStream);
++        if (recordPackets) {
++            captured = new java.io.ByteArrayOutputStream();
++            input = new java.io.FilterInputStream(input) {
++                @Override public int read() throws IOException {
++                    int value = in.read(); if (value >= 0) captured.write(value); return value;
++                }
++                @Override public int read(byte[] bytes, int offset, int length) throws IOException {
++                    int n = in.read(bytes, offset, length); if (n > 0) captured.write(bytes, offset, n); return n;
++                }
++            };
++        }
++        dis = new DataInputStream(input);
++    }
++    public byte[] readPacket() throws IOException {
++        if (captured == null) throw new IllegalStateException("Packet recording disabled");
++        captured.reset(); read(); return captured.toByteArray();
+     }
+ 
+     public ControlMessage read() throws IOException {
+@@ -49,7 +68,8 @@
+             case ControlMessage.TYPE_RESET_VIDEO:
+             case ControlMessage.TYPE_CAMERA_ZOOM_IN:
+             case ControlMessage.TYPE_CAMERA_ZOOM_OUT:
++            case ControlMessage.TYPE_GUARDED_PANEL_OFF:
+             case ControlMessage.TYPE_PANEL_HEARTBEAT:
+             case ControlMessage.TYPE_REQUEST_KEYFRAME:
+                 return ControlMessage.createEmpty(type);
+             case ControlMessage.TYPE_UHID_CREATE:
+--- a/server/src/main/java/com/genymobile/scrcpy/control/Controller.java
++++ b/server/src/main/java/com/genymobile/scrcpy/control/Controller.java
+@@ -111,6 +111,18 @@
+     private volatile boolean keepDisplayPowerOff;
+     private final PanelPowerLease panelLease = new PanelPowerLease();
+     private ScheduledFuture<?> panelWatchdog;
++    private GuardedPanel guardedPanel;
++    private static final long GUARD_ACK_BASE = 0x4b47475000000000L;
++    private void reportGuard(int state) { sender.send(DeviceMessage.createAckClipboard(GUARD_ACK_BASE + state)); }
++    private synchronized void armGuardedPanel() {
++        try {
++            if (guardedPanel == null) guardedPanel = new GuardedPanel(new com.genymobile.scrcpy.wrappers.GuardPlatform());
++            if (!guardedPanel.arm()) { reportGuard(3); return; }
++            setDisplayPower(false);
++            if (!keepDisplayPowerOff) { guardedPanel.beforeRestore(); reportGuard(3); return; }
++            reportGuard(1);
++        } catch (Exception | LinkageError | AssertionError failure) { reportGuard(3); }
++    }
+ 
+     // Used for resetting video encoding on RESET_VIDEO message or for sending camera controls
+     private SurfaceCapture surfaceCapture;
+@@ -276,7 +288,7 @@
+     @Override
+     public void start(TerminationListener listener) {
+         if (!camera) {
+-            panelWatchdog = EXECUTOR.scheduleWithFixedDelay(this::restoreExpiredPanel, 500, 500, TimeUnit.MILLISECONDS);
++            panelWatchdog = EXECUTOR.scheduleWithFixedDelay(this::restoreExpiredPanel, 100, 100, TimeUnit.MILLISECONDS);
+         }
+         if (keepActive) {
+             startKeepActiveThread();
+@@ -344,6 +356,9 @@
+ 
+         // Events for all sources (display or camera)
+         switch (type) {
++            case ControlMessage.TYPE_GUARDED_PANEL_OFF:
++                armGuardedPanel();
++                return true;
+             case ControlMessage.TYPE_PANEL_HEARTBEAT:
+                 renewPanelLease();
+                 return true;
+@@ -876,7 +891,9 @@
+     }
+ 
+     private synchronized void restoreExpiredPanel() {
+-        if (panelLease.expired(SystemClock.elapsedRealtime())) {
++        if (guardedPanel != null && guardedPanel.armed() && !Device.isScreenOn(0)) {
++            setDisplayPower(true);
++        } else if (panelLease.expired(SystemClock.elapsedRealtime())) {
+             Ln.i("Panel heartbeat expired; restoring physical display");
+             setDisplayPower(true);
+         }
+@@ -889,6 +906,10 @@
+     }
+ 
+     private synchronized void setDisplayPower(boolean on) {
++        if (on && guardedPanel != null && guardedPanel.armed()) {
++            if (!guardedPanel.beforeRestore()) { reportGuard(3); return; }
++            reportGuard(2);
++        }
+         // Change the power of the main display when mirroring a virtual display
+         int targetDisplayId = displayId != Device.DISPLAY_ID_NONE ? displayId : 0;
+         boolean setDisplayPowerOk = Device.setDisplayPower(targetDisplayId, on);
